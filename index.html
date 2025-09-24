@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>公司名称提交</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #07C160;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #07C160;
+            box-shadow: 0 0 0 2px rgba(7, 193, 96, 0.2);
+            outline: none;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: #07C160;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: #06AD56;
+        }
+        
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            color: #FA5151;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .success-message {
+            text-align: center;
+            color: #07C160;
+            font-size: 16px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>公司信息提交</h1>
+            <p>请输入您的公司名称，我们将为您提供专属服务</p>
+        </div>
+        
+        <form id="companyForm">
+            <div class="form-group">
+                <label for="companyName">公司名称</label>
+                <input type="text" id="companyName" name="companyName" placeholder="请输入完整的公司名称" required>
+                <div class="error-message" id="errorMessage">请输入有效的公司名称</div>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">提交</button>
+            
+            <div class="success-message" id="successMessage">
+                提交成功！感谢您的参与。
+            </div>
+        </form>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 企业服务平台 · 提供专业企业服务</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('companyForm');
+            const companyNameInput = document.getElementById('companyName');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // 表单提交处理
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 验证公司名称
+                const companyName = companyNameInput.value.trim();
+                
+                if (companyName === '') {
+                    showError('请输入公司名称');
+                    return;
+                }
+                
+                if (companyName.length < 2) {
+                    showError('公司名称至少需要2个字符');
+                    return;
+                }
+                
+                // 模拟提交过程
+                submitBtn.disabled = true;
+                submitBtn.textContent = '提交中...';
+                
+                // 模拟网络请求延迟
+                setTimeout(function() {
+                    // 显示成功消息
+                    successMessage.style.display = 'block';
+                    form.reset();
+                    
+                    // 3秒后重置按钮状态
+                    setTimeout(function() {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '提交';
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                }, 1500);
+            });
+            
+            // 实时验证输入
+            companyNameInput.addEventListener('input', function() {
+                hideError();
+            });
+            
+            // 显示错误信息
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                companyNameInput.style.borderColor = '#FA5151';
+            }
+            
+            // 隐藏错误信息
+            function hideError() {
+                errorMessage.style.display = 'none';
+                companyNameInput.style.borderColor = '#ddd';
+            }
+        });
+    </script>
+</body>
+</html>
