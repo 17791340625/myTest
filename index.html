@@ -2,230 +2,146 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>公司名称提交</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin: 20px 0;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            color: #07C160;
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #333;
-            font-size: 16px;
-        }
-        
-        input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        input[type="text"]:focus {
-            border-color: #07C160;
-            box-shadow: 0 0 0 2px rgba(7, 193, 96, 0.2);
-            outline: none;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            background: #07C160;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 18px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-        
-        .submit-btn:hover {
-            background: #06AD56;
-        }
-        
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
-        
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        
-        .error-message {
-            color: #FA5151;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .success-message {
-            text-align: center;
-            color: #07C160;
-            font-size: 16px;
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #999;
-            font-size: 12px;
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇点售后服务售后服务号测试页面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        neutral: '#86909C',
+                        light: '#F2F3F5',
+                        dark: '#1D2129'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
             }
-            
-            .header h1 {
-                font-size: 20px;
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .form-input-focus {
+                @apply focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg;
+            }
+            .card {
+                @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-lg;
             }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>公司信息提交</h1>
-            <p>请输入您的公司名称，我们将为您提供专属服务</p>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+        <div class="text-center mb-8">
+            <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-2">奇点售后服务系统</h1>
+            <p class="text-neutral">故障信息提交测试</p>
         </div>
         
-        <form id="companyForm">
-            <div class="form-group">
-                <label for="companyName">公司名称</label>
-                <input type="text" id="companyName" name="companyName" placeholder="请输入完整的公司名称" required>
-                <div class="error-message" id="errorMessage">请输入有效的公司名称</div>
-            </div>
+        <div class="card">
+            <form id="faultForm" class="space-y-6">
+                <div>
+                    <label for="badReason" class="block text-sm font-medium text-gray-700 mb-1">故障原因 <span class="text-red-500">*</span></label>
+                    <input type="text" id="badReason" name="badReason" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus"
+                           placeholder="请输入故障原因" required>
+                </div>
+                
+                <div>
+                    <label for="badDesc" class="block text-sm font-medium text-gray-700 mb-1">故障描述 <span class="text-red-500">*</span></label>
+                    <textarea id="badDesc" name="badDesc" rows="4"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus"
+                              placeholder="请详细描述故障情况" required></textarea>
+                </div>
+                
+                <div class="flex justify-center pt-4">
+                    <button type="submit" class="btn-primary flex items-center">
+                        <i class="fa fa-paper-plane mr-2"></i> 提交故障信息
+                    </button>
+                </div>
+            </form>
             
-            <button type="submit" class="submit-btn" id="submitBtn">提交</button>
-            
-            <div class="success-message" id="successMessage">
-                提交成功！感谢您的参与。
-            </div>
-        </form>
-    </div>
-    
-    <div class="footer">
-        <p>© 2023 企业服务平台 · 提供专业企业服务</p>
+            <div id="resultMessage" class="mt-6 hidden p-4 rounded-lg"></div>
+        </div>
+        
+        <div class="mt-8 text-center text-sm text-neutral">
+            <p>© 2024 奇点科技 售后服务系统测试页面</p>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('companyForm');
-            const companyNameInput = document.getElementById('companyName');
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            const submitBtn = document.getElementById('submitBtn');
+        document.getElementById('faultForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // 表单提交处理
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // 验证公司名称
-                const companyName = companyNameInput.value.trim();
-                
-                if (companyName === '') {
-                    showError('请输入公司名称');
-                    return;
-                }
-                
-                if (companyName.length < 2) {
-                    showError('公司名称至少需要2个字符');
-                    return;
-                }
-                
-                // 模拟提交过程
-                submitBtn.disabled = true;
-                submitBtn.textContent = '提交中...';
-                
-                // 模拟网络请求延迟
-                setTimeout(function() {
-                    // 显示成功消息
-                    successMessage.style.display = 'block';
-                    form.reset();
-                    
-                    // 3秒后重置按钮状态
-                    setTimeout(function() {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = '提交';
-                        successMessage.style.display = 'none';
-                    }, 3000);
-                }, 1500);
-            });
+            // 获取表单数据
+            const badReason = document.getElementById('badReason').value.trim();
+            const badDesc = document.getElementById('badDesc').value.trim();
             
-            // 实时验证输入
-            companyNameInput.addEventListener('input', function() {
-                hideError();
-            });
-            
-            // 显示错误信息
-            function showError(message) {
-                errorMessage.textContent = message;
-                errorMessage.style.display = 'block';
-                companyNameInput.style.borderColor = '#FA5151';
+            // 简单验证
+            if (!badReason || !badDesc) {
+                showMessage('故障原因和故障描述不能为空', 'error');
+                return;
             }
             
-            // 隐藏错误信息
-            function hideError() {
-                errorMessage.style.display = 'none';
-                companyNameInput.style.borderColor = '#ddd';
-            }
+            // 准备请求数据
+            const formData = new FormData();
+            formData.append('badReason', badReason);
+            formData.append('badDesc', badDesc);
+            
+            // 显示加载状态
+            showMessage('正在提交数据...', 'info');
+            
+            // 调用后端接口
+            fetch('http://test-it-openapi.jd-energy.com.cn:18081/mes/public/api/test/1', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                showMessage('数据提交成功！', 'success');
+                console.log('提交成功', data);
+                // 可选：提交成功后重置表单
+                // this.reset();
+            })
+            .catch(error => {
+                showMessage(`提交失败: ${error.message}`, 'error');
+                console.error('错误:', error);
+            });
         });
+        
+        // 显示消息提示
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('resultMessage');
+            messageEl.textContent = text;
+            messageEl.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800', 'bg-blue-100', 'text-blue-800');
+            
+            switch(type) {
+                case 'success':
+                    messageEl.classList.add('bg-green-100', 'text-green-800');
+                    break;
+                case 'error':
+                    messageEl.classList.add('bg-red-100', 'text-red-800');
+                    break;
+                case 'info':
+                    messageEl.classList.add('bg-blue-100', 'text-blue-800');
+                    break;
+            }
+        }
     </script>
 </body>
 </html>
