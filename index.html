@@ -82,6 +82,7 @@
     <script>
         document.getElementById('faultForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('提交按钮被点击，开始处理...');
             
             // 获取表单数据
             const badReason = document.getElementById('badReason').value.trim();
@@ -93,34 +94,51 @@
                 return;
             }
             
-            // 准备请求数据
-            const formData = new FormData();
-            formData.append('badReason', badReason);
-            formData.append('badDesc', badDesc);
+            // 准备请求数据 - 使用URLSearchParams替代FormData，更适合简单表单
+            const params = new URLSearchParams();
+            params.append('badReason', badReason);
+            params.append('badDesc', badDesc);
             
             // 显示加载状态
             showMessage('正在提交数据...', 'info');
             
             // 调用后端接口
+            console.log('准备调用接口:', 'http://test-it-openapi.jd-energy.com.cn:18081/mes/public/api/test/1');
             fetch('http://test-it-openapi.jd-energy.com.cn:18081/mes/public/api/test/1', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    // 如果需要跨域访问，添加这个头信息
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: params,
+                mode: 'cors' // 处理跨域请求
             })
             .then(response => {
+                console.log('接口返回状态:', response.status);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`请求失败，状态码: ${response.status}`);
                 }
-                return response.json();
+                // 尝试解析JSON，如果后端返回的不是JSON会抛出错误
+                return response.text().then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch {
+                        return text; // 如果不是JSON，直接返回文本
+                    }
+                });
             })
             .then(data => {
                 showMessage('数据提交成功！', 'success');
-                console.log('提交成功', data);
-                // 可选：提交成功后重置表单
-                // this.reset();
+                console.log('提交成功，返回数据:', data);
             })
             .catch(error => {
                 showMessage(`提交失败: ${error.message}`, 'error');
-                console.error('错误:', error);
+                console.error('错误详情:', error);
+                // 检查是否是跨域问题
+                if (error.message.includes('CORS') || error.message.includes('跨域')) {
+                    console.error('可能存在跨域问题，请联系后端开发人员添加CORS配置');
+                }
             });
         });
         
@@ -145,3 +163,4 @@
     </script>
 </body>
 </html>
+    
